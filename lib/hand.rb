@@ -41,6 +41,14 @@ class Hand
     rank <=> other.rank
   end
 
+  def add_card(card)
+    cards << card
+  end
+
+  def discard(index)
+    cards.delete_at(index)
+  end
+
   private
 
   def straight_flush

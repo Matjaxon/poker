@@ -37,7 +37,22 @@ describe Hand do
       hand = Hand.new(cards)
       expect(hand.cards).to eq(cards)
     end
+  end
 
+  describe "#add_card" do
+    it "adds the given card to the cards array" do
+      two_of_spades = Card.new(2, :spades)
+      ace_low_straight.add_card(two_of_spades)
+      expect(ace_low_straight.cards).to include(two_of_spades)
+      expect(ace_low_straight.cards.length).to eq(6)
+    end
+  end
+
+  describe "#discard" do
+    it "deletes the card at the given index" do
+      ace_low_straight.discard(0)
+      expect(ace_low_straight.cards.length).to eq(4)
+    end
   end
 
   describe "#rank" do
@@ -77,33 +92,27 @@ describe Hand do
       Card.new(7, :diamonds)
       ])}
 
-
-
     it "returns 1 if the first hand is stronger" do
       expect(straight_flush <=> four_of_a_kind).to eq(1)
     end
-
     it "returns -1 if the second hand is stronger" do
       expect(high_card_hand <=> four_of_a_kind).to eq(-1)
     end
-
     it "returns 0 if both hands are equally strong" do
       expect(full_house <=> full_house).to eq(0)
     end
-
     it "correctly compares hands of different ranks" do
       expect(full_house <=> four_of_a_kind).to eq(-1)
     end
-
     it "relies on the high cards if hands are equal rank" do
       expect(hand1 <=> hand2).to eq(1)
     end
-
     it "uses the next highest card if the hands' high cards are equal" do
       expect(hand2 <=> hand3).to eq(-1)
     end
-
-
+    it "knows that an ace-high straight beats an ace-low straight" do
+      expect(ace_high_straight <=> ace_low_straight).to eq(1)
+    end
 
   end
 
