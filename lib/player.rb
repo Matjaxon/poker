@@ -2,17 +2,19 @@ require_relative "hand"
 
 class Player
 
-  attr_reader :hand, :pot, :name, :bank
+  attr_reader :hand, :pot, :name, :bank, :folded
 
   def initialize(name, bank)
     @name = name
     @bank = bank
     @hand = nil
     @pot = 0
+    @folded = false
   end
 
-  def reset_pot
+  def reset_player
     @pot = 0
+    @folded = false
   end
 
   def receive_hand(hand)
@@ -61,6 +63,10 @@ class Player
     puts hand.cards.map(&:to_s).join(" ")
   end
 
+  def fold
+    @folded = true
+  end
+
   private
 
   def valid_discards?(indices)
@@ -68,5 +74,4 @@ class Player
     indices.all? { |x| x.between?(0,4) } &&
     indices.uniq == indices
   end
-
 end

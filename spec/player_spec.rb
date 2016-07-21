@@ -54,15 +54,6 @@ describe Player do
 
   end
 
-  describe "#reset_pot" do
-    it "can be reset to 0 at the start of a new hand" do
-      player.bet(50)
-      player.reset_pot
-      expect(player.pot).to eq(0)
-    end
-  end
-
-
   describe "#accept_winnings" do
     it "increases the players bank" do
       player.accept_winnings(500)
@@ -70,15 +61,12 @@ describe Player do
     end
   end
 
-
   describe "#discard" do
     it "removes a card from the player's hand" do
       player.receive_hand(hand)
-      #expect(player.hand).to receive(:discard).with(3)
       player.discard(3)
       expect(player.hand.cards.length).to eq(4)
     end
-
   end
 
   describe "#receive_card" do
@@ -87,6 +75,27 @@ describe Player do
       player.receive_hand(hand)
       player.receive_card(dummy_card)
       expect(player.hand.cards.length).to eq(6)
+    end
+  end
+
+  describe "#fold" do
+    it "turns a player to folded" do
+      player.fold
+      expect(player.folded).to be true
+    end
+  end
+
+
+  describe "#reset_player" do
+    it "can be reset to 0 at the start of a new hand" do
+      player.bet(50)
+      player.reset_player
+      expect(player.pot).to eq(0)
+    end
+    it "reverts a player back to not being folded" do
+      player.fold
+      player.reset_player
+      expect(player.folded).to be false
     end
   end
 
